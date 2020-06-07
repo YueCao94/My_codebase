@@ -1,0 +1,6 @@
+
+for i in `</home/cyppsp/project_CAPRISpecial/baseline/baseline_list`
+do
+echo $i
+./autoscript /home/cyppsp/project_CAPRISpecial/baseline/chuandi/ $i
+done

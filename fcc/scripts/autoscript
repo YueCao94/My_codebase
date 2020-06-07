@@ -1,0 +1,48 @@
+path=$1
+prot=$2
+
+echo copying protein $prot...
+cp -r $path/$prot $prot
+
+
+for pdb in  $prot/c*
+do
+
+if [[ $pdb == *"pdb"* ]]; then
+echo $pdb
+else
+ mv $pdb $pdb\.pdb
+fi
+
+done
+
+echo done rename pdb files...
+
+python change_pdb.py $prot
+echo done changing pdb files..
+
+
+ls $prot/*pdb > pdb.list
+for pdb in $( cat pdb.list ); do python2 pdb_chainxseg.py $pdb > temp; mv temp $pdb; done
+
+echo done pdb converting...
+
+python2 make_contacts.py -f pdb.list -n 4 -e ../src/contact_fcc
+
+echo done contact file calculation...
+
+sed -e 's/pdb/contacts/' pdb.list | sed -e '/^$/d' > pdb.contacts
+
+python2 calc_fcc_matrix.py -f pdb.contacts -o fcc_matrix.out 
+
+echo done similarity matrix calculation...
+
+python2 cluster_fcc.py fcc_matrix.out 0.75 -o clusters_0.75.out
+
+echo done clustering..
+
+python2 ppretty_clusters.py clusters_0.75.out pdb.list > $prot\_clusters_0.75.out
+
+echo done perfect clustering..
+
+rm -rf $prot
