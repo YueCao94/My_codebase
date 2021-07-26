@@ -51,11 +51,3 @@ For most cases, the following setup is enough:
 
 
 
-Ezgi Karaca
-
-Panagiotis Kastritis
-
-[Alexandre Bonvin] [2]
-
-[1]: http://www.ncbi.nlm.nih.gov/pubmed/22489062 "FCC @ Pubmed"
-[2]: http://nmr.chem.uu.nl/~abonvin "Alexandre Bonvin's Homepage"
